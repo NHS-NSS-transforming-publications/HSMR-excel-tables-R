@@ -4,7 +4,7 @@
 ## Original Authors - Marios Alexandropoulos              ##
 ## Orginal Date - November 2018                           ##
 ## Latest Update Author -   Marios Alexandropoulos        ##
-## Latest Update Date -   21/11/18                        ##
+## Latest Update Date -   22/11/18                        ##
 ## Updates to script (if any):
 ##                                                        ##
 ## Type - Extract/model                                   ##
@@ -40,10 +40,49 @@ smr <- read.csv("smr_data.csv", stringsAsFactors = FALSE)
 str(smr)
 head(smr)
 
+
+# Create quarter_name
+smr <- smr %>% 
+  mutate(quarter_name = ifelse(quarter == 1, "Jan-Mar2011",
+                               ifelse(quarter == 2, "Apr-Jun2011", 
+                                      ifelse(quarter == 3, "Jul-Sep2011",
+                                             ifelse(quarter == 4, "Oct-Dec2011",
+                                                    ifelse(quarter == 5, "Jan-Mar2012", 
+                                                           ifelse(quarter == 6, "Apr-Jun2012",
+                                                                  ifelse(quarter == 7, "Jul-Sep2012",
+                                                                         ifelse(quarter == 8, "Oct-Dec2012", 
+                                                                                ifelse(quarter == 9, "Jan-Mar2013",
+                                                                                       ifelse(quarter == 10, "Apr-Jun2013",
+                                                                                              ifelse(quarter == 11, "Jul-Sep2013", 
+                                                                                                     ifelse(quarter == 12, "Oct-Dec2013", 
+                                                                                                            ifelse(quarter == 13, "Jan-Mar2014", 
+                                                                                                                   ifelse(quarter == 14, "Apr-Jun2014",
+                                                                                                                          ifelse(quarter == 15, "Jul-Sep2014",
+                                                                                                                                 ifelse(quarter == 16, "Oct-Dec2014",
+                                                                                                                                        ifelse(quarter == 17, "Jan-Mar2015",
+                                                                                                                                               ifelse(quarter == 18, "Apr-Jun2015",
+                                                                                                                                                      ifelse(quarter == 19, "Jul-Sep2015",
+                                                                                                                                                             ifelse(quarter == 20, "Oct-Dec2015",
+                                                                                                                                                                    ifelse(quarter == 21, "Jan-Mar2016",
+                                                                                                                                                                           ifelse(quarter == 22, "Apr-Jun2016",
+                                                                                                                                                                                  ifelse(quarter == 23, "Jul-Sep2016",
+                                                                                                                                                                                         ifelse(quarter == 24, "Oct-Dec2016",
+                                                                                                                                                                                                ifelse(quarter == 25, "Jan-Mar2017",
+                                                                                                                                                                                                       ifelse(quarter == 26, "Apr-Jun2017",
+                                                                                                                                                                                                              ifelse(quarter == 27, "Jul-Sep2017",
+                                                                                                                                                                                                                     ifelse(quarter == 28, "Oct-Dec2017",
+                                                                                                                                                                                                                            ifelse(quarter == 29, "Jan-Mar2018",'NULL'))))))))))))))))))))))))))))))
+
+# Check all quarters have matched properly
+quarter_check <- table(smr$quarter_name, exclude = NULL)
+quarter_check                                                                                                                                                                                                                                  
+
+
 # select only scotland
-smr <-
+smr_scot <-
   smr %>% 
   filter(location_name == "Scotland")
+
 
 
 
@@ -51,12 +90,12 @@ smr <-
 theme_set(theme_classic())
 
 # Plot
-ggplot(smr, aes(x=smr, y=quarter)) + 
-  geom_point(col="tomato2", size=3) +   # Draw points
+ggplot(smr_scot, aes(x=smr, y=quarter_name)) + 
+  geom_point(col="blue", size=3) +   # Draw points
   geom_segment(aes(x=smr, 
                    xend=smr, 
-                   y=min(quarter), 
-                   yend=max(quarter)), 
+                   y=min(quarter_name), 
+                   yend=max(quarter_name)), 
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
   labs(title="Chart 2 - Hospital Standardised Mortality Ratio with Regression Line1; January 2011 - June 2018p", 
@@ -71,13 +110,13 @@ ggplot(smr, aes(x=smr, y=quarter)) +
 theme_set(theme_classic())
 
 # Plot
-ggplot(smr, aes(x=crd_rate, y=quarter)) + 
+ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) + 
   geom_point(col="blue", size=3) + # Draw points
   geom_line() +
   geom_segment(aes(x=crd_rate, 
                    xend=crd_rate, 
-                   y=min(quarter), 
-                   yend=max(quarter)), 
+                   y=min(quarter_name), 
+                   yend=max(quarter_name)), 
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
   labs(title="Chart 4 - Crude Mortality Rates (%): January 2011 - June 2018p", 
