@@ -84,8 +84,6 @@ smr_scot <-
   filter(location_name == "Scotland")
 
 
-
-
 # Create chart smr vs quarter
 theme_set(theme_classic())
 
@@ -102,7 +100,8 @@ ggplot(smr_scot, aes(x=smr, y=quarter_name)) +
        subtitle="SMR Vs quarter", 
        caption="source: mpg") +
   coord_cartesian(ylim = c(0, 1.5)) + 
-  coord_flip() 
+  coord_flip() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 
@@ -123,4 +122,6 @@ ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) +
        subtitle="Crude Mortality Rate (%) Vs quarter", 
        caption="source: mpg") +
   coord_cartesian(ylim = c(0, 4)) + 
-  coord_flip() 
+  coord_flip() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
