@@ -83,7 +83,6 @@ smr_scot <-
   smr %>% 
   filter(location_name == "Scotland")
 
-
 # Create chart smr vs quarter
 theme_set(theme_classic())
 
@@ -96,9 +95,14 @@ ggplot(smr_scot, aes(x=smr, y=quarter_name)) +
                    yend=max(quarter_name)), 
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
-  labs(title="Chart 2 - Hospital Standardised Mortality Ratio with Regression Line1; January 2011 - June 2018p", 
-       subtitle="SMR Vs quarter", 
-       caption="source: mpg") +
+  labs(title="Quarterly Hospital Standardised Mortality Ratios in Scotland
+       Mortality within 30-days of admission", 
+       subtitle="Chart 2 - Hospital Standardised Mortality Ratio with Regression Line1; January 2011 - June 2018p", 
+       caption="
+       
+       source: ISD Scotland (SMR01) linked dataset. Reflects the completeness of SMR01 submissions to ISD for individual hospitals as of 12th October 2018.
+       P = provisional (see main report Appendix A1 - Data Quality and Timeliness).
+       1. A regression line through data points from January to March 2014, to the current HSMR is used to smooth out seasonal variations in HSMR and to monitor long term change.") +
   coord_cartesian(ylim = c(0, 1.5)) + 
   coord_flip() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -107,6 +111,8 @@ ggplot(smr_scot, aes(x=smr, y=quarter_name)) +
 
 # Create chart crd_rate vs quarter
 theme_set(theme_classic())
+
+
 
 # Plot
 ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) + 
@@ -118,10 +124,38 @@ ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) +
                    yend=max(quarter_name)), 
                linetype="dashed", 
                size=0.1) +   # Draw dashed lines
-  labs(title="Chart 4 - Crude Mortality Rates (%): January 2011 - June 2018p", 
-       subtitle="Crude Mortality Rate (%) Vs quarter", 
-       caption="source: mpg") +
+  labs(title="Quarterly Hospital Standardised Mortality Ratios in Scotland
+       Mortality within 30-days of admission", 
+       subtitle="Chart 4 - Crude Mortality Rates (%): January 2011 - June 2018p", 
+       caption="
+       
+       Source: ISD Scotland (SMR01) linked dataset. Reflects the completeness of SMR01 submissions to ISD for individual hospitals as of 12th October 2018.
+       P = provisional (see main report Appendix A1 - Data Quality and Timeliness).") +
   coord_cartesian(ylim = c(0, 4)) + 
   coord_flip() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 
+
+
+# # creat workbook and sheet
+# wb <- createWorkbook(type="xlsx")
+# sheet <- createSheet(wb, sheetName = "example1")
+# 
+# # basic box plot
+# data(ToothGrowth)
+# xlsx.addHeader(wb, sheet, "Basic box plot")
+# xlsx.addLineBreak(sheet, 1)
+# plotFunction<-function(){boxplot(len ~ dose, data = ToothGrowth, col = 1:3)}
+# xlsx.addPlot(wb, sheet, plotFunction())
+# # ggplot2
+# library("ggplot2")
+# xlsx.addHeader(wb, sheet, "ggplot2")
+# xlsx.addLineBreak(sheet, 1)
+# plotFunction<-function(){
+#   p<-qplot(mpg, wt, data=mtcars)
+#   print(p)
+# }
+# xlsx.addPlot(wb, sheet, plotFunction())
+# # save the workbook to an Excel file.
+# saveWorkbook(wb, "examples_add_plot.xlsx")
+# xlsx.openFile("examples_add_plot.xlsx")# view the file
