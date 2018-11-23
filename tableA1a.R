@@ -138,24 +138,42 @@ ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) +
 
 
 # # creat workbook and sheet
-# wb <- createWorkbook(type="xlsx")
-# sheet <- createSheet(wb, sheetName = "example1")
-# 
-# # basic box plot
-# data(ToothGrowth)
-# xlsx.addHeader(wb, sheet, "Basic box plot")
-# xlsx.addLineBreak(sheet, 1)
-# plotFunction<-function(){boxplot(len ~ dose, data = ToothGrowth, col = 1:3)}
-# xlsx.addPlot(wb, sheet, plotFunction())
-# # ggplot2
-# library("ggplot2")
-# xlsx.addHeader(wb, sheet, "ggplot2")
-# xlsx.addLineBreak(sheet, 1)
-# plotFunction<-function(){
-#   p<-qplot(mpg, wt, data=mtcars)
-#   print(p)
-# }
-# xlsx.addPlot(wb, sheet, plotFunction())
-# # save the workbook to an Excel file.
-# saveWorkbook(wb, "examples_add_plot.xlsx")
-# xlsx.openFile("examples_add_plot.xlsx")# view the file
+wb_A1a <- createWorkbook(type="xlsx")
+sheet <- createSheet(wb_A1a, sheetName = "Chart_4")
+
+# Add header
+xlsx.addHeader(wb_A1a, sheet, "Quarterly Hospital Standardised Mortality Ratios in Scotland Mortality within 30-days of admission", level= 2)
+xlsx.addHeader(wb_A1a, sheet, "Chart 4 - Crude Mortality Rates (%): January 2011 - June 2018p", level= 3, color = "darkgrey")
+
+xlsx.addLineBreak(sheet, 1)
+
+# Plot function
+plotFunction<-function(){
+  p_crd <- ggplot(smr_scot, aes(x=crd_rate, y=quarter_name)) + 
+    geom_point(col="blue", size=3) + # Draw points
+    geom_line() +
+    geom_segment(aes(x=crd_rate, 
+                     xend=crd_rate, 
+                     y=min(quarter_name), 
+                     yend=max(quarter_name)), 
+                 linetype="dashed", 
+                 size=0.1) +   # Draw dashed lines
+    labs(title="", 
+         subtitle="", 
+         caption="
+         
+         Source: ISD Scotland (SMR01) linked dataset. Reflects the completeness of SMR01 submissions to ISD for individual hospitals as of 12th October 2018.
+         P = provisional (see main report Appendix A1 - Data Quality and Timeliness).") +
+    coord_cartesian(ylim = c(0, 4)) + 
+    coord_flip() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  print(p_crd)
+}
+
+# Add plot in the excel sheet
+xlsx.addPlot(wb_A1a, sheet, plotFunction())
+
+# save the workbook to an Excel file.
+saveWorkbook(wb_A1a, "table_A1a.xlsx")
+
+xlsx.openFile("table_A1a.xlsx")# view the file
