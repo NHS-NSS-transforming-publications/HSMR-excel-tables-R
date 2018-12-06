@@ -1,13 +1,50 @@
-install.packages("openxlsx")
+############################################################
+## Codename - table3_wrangling                            ##
+## Data Release - 
+## Original Authors - Marios Alexandropoulos              ##
+## Orginal Date - December 2018                           ##
+## Latest Update Author -   Marios Alexandropoulos        ##
+## Latest Update Date -   06/12/18                        ##
+## Updates to script (if any):
+##                                                        ##
+## Type - Extract/model                                   ##
+## Written/run on - R Studio Server                       ##
+## Type - Preparation                                     ##
+## Written/run on - R Studio Server                       ##
+## R version - 3.2.3 (2015-12-10)                         ##
+## Versions of packages -                                 ##
+## tidyverse_1.1.1                                        ##
+##                                                        ##
+## Description -  Template for producing Table 3: 
+## Impact of the data refresh on the previously published
+## provisional Standardised Mortality Ratios for all 
+## hospitals in Scotland                                  ##
+##                                                        ## 
+##                                                        ##
+## Approximate run time: 1min                             ## 
+############################################################
+
+
+################################## 
+##################################
+### SECTION 1 - HOUSE KEEPING ----
+##################################
+##################################
+
+install.packages("openxlsx") #Read, Write and Edit XLSX Files
 library("openxlsx")
 
+# Create a workbook
 wb <- loadWorkbook("Table3.xlsx")
 
 sheetName <- "HSMR1"
 
+# Add sheet
 addWorksheet(wb, sheetName)
 
 
+
+# Add and format title
 
 style_title <- createStyle(fontSize = 12, textDecoration = "bold", wrapText = FALSE)
 
@@ -20,7 +57,7 @@ writeData(wb, "HSMR1", "Standardised Mortality Ratios for all hospitals in Scotl
 addStyle(wb, "HSMR1", style_title, rows = 2, cols = 2)
 addStyle(wb, "HSMR1", style_title, rows = 3, cols = 2)
 
-
+# Create and format table
 writeData(wb, "HSMR1", "Oct-Dec 2017",
           startCol = 4, startRow = 5, rowNames = FALSE)
 
@@ -46,7 +83,7 @@ writeData(wb, "HSMR1", "as at 15/05/2018",
 style <- createStyle(fontSize = 12, textDecoration = "bold", wrapText = FALSE)
 addStyle(wb, "HSMR1", style, rows = 4:7, cols = 5)
 
-#####
+
 
 writeData(wb, "HSMR1", "Oct-Dec 2017",
           startCol = 6, startRow = 5, rowNames = FALSE)
@@ -73,6 +110,25 @@ writeData(wb, "HSMR1", "as at 14/08/2018",
 style <- createStyle(fontSize = 12, textDecoration = "bold", wrapText = FALSE)
 addStyle(wb, "HSMR1", style, rows = 4:7, cols = 5)
 
+# Add HB and hospital in first two columns
+board <- c("NHS Ayrshire & Arran", " ", " ", "NHS Borders", "", "NHS Dumfries & Galloway", "",
+           "NHS Fife", "", "NHS Forth Valley", "", "NHS Grampian", "", "",
+           "NHS Greater Glasgow & Clyde", " ", " ", " ", " ", "NHS Highland", " ", " ", " ",
+           " ", "NHS Lanarkshire", " ", " ", " ", "NHS Lothian", " ", " ", " ", "National Waiting Times Centre",
+           " ", "NHS Orkney", " ", "NHS Shetland", " ", "NHS Tayside", " ", " ", " ", "NHS Western Isles", " ",
+           "Scotland")
+
+hospital <- c("University Hospital Ayr", "University Hospital Crosshouse", " ", "Borders General Hospital",
+              " ", "Dumfries & Galloway Royal Infirmary", " ", "Victoria / Queen Margaret / Forth Park", " ",
+              "Forth Valley Royal Hospital", " ", "Aberdeen Royal Infirmary", "Dr Gray's Hospital", " ", "Glasgow Royal Infirmary / Stobhill",
+              "Inverclyde Royal Hospital", "Royal Alexandra / Vale of Leven", "Queen Elizabeth University Hospital", " ",
+              "Belford Hospital", "Caithness General Hospital", "Lorn & Islands Hospital",
+              "Raigmore Hospital", " ", "University Hospital Hairmyres", "University Hospital Monklands", "University Hospital Wishaw",
+              " ", "Royal Infirmary of Edinburgh at Little France", "St John's Hospital", "Western General Hospital", " ",
+              "Golden Jubilee National Hospital", " ", "Balfour Hospital", " ", "Gilbert Bain Hospital", " ",
+              "Ninewells Hospital", "Perth Royal Infirmary", "Stracathro Hospital",
+              " ", "Western Isles Hospital", " ")
+
 
 writeData(wb, "HSMR1", board, startCol = 2, startRow = 8, xy = NULL,
           colNames = TRUE, rowNames = FALSE, headerStyle = NULL,
@@ -91,11 +147,8 @@ writeData(wb, "HSMR1", hospital, startCol = 3, startRow = 9, xy = NULL,
           withFilter = FALSE, keepNA = FALSE, name = NULL, sep = ", ")
 
 
-# boardStyle <- createStyle(fontSize = 12, fontColour = "#FFFFFF", halign = "center",
-#                            fgFill = "#4F81BD", border="TopBottom", borderColour = "#4F81BD")
-# addStyle(wb, "HSMR1", boardStyle, rows = 8:52, cols = 2, gridExpand = TRUE)
 
-
+# Format HB and hospital columns
 
 boardstyle <- createStyle(fontSize = 12, textDecoration = "bold", wrapText = FALSE, halign = "left")
 addStyle(wb, "HSMR1", boardstyle, rows = 8:52, cols = 2, gridExpand = TRUE)
@@ -128,15 +181,15 @@ colourstyle1 <- createStyle(fontSize = 10, fontName = "Arial",
 
 addStyle(wb, "HSMR1", colourstyle1, rows = 7, cols = 2:7, gridExpand = TRUE)
 
+# Add and format source 
+ source_title <- createStyle(fontSize = 8, textDecoration = "bold", wrapText = FALSE)
 
-# source_title <- createStyle(fontSize = 8, textDecoration = "bold", wrapText = TRUE)
-# 
-# writeData(wb, "HSMR1", "Source: ISD Scotland (SMR01) linked dataset.Reflects the completeness of SMR01 submissions to ISD for individual hospitals as of 12th July 2018.",
-#           startCol = 2, startRow = 54, rowNames = FALSE)
-# 
-# 
-# 
-# addStyle(wb, "HSMR1", source_title, rows = 54, cols = 2)
+ writeData(wb, "HSMR1", "Source: ISD Scotland (SMR01) linked dataset.Reflects the completeness of SMR01 submissions to ISD for individual hospitals as of 12th July 2018.",
+           startCol = 2, startRow = 54, rowNames = FALSE)
+ 
+ 
+# Format table's borders 
+addStyle(wb, "HSMR1", source_title, rows = 54, cols = 2)
 
 
 borderstyle <- createStyle(fontSize = 12, fontName = "Arial",
@@ -155,8 +208,11 @@ borderstyle2 <- createStyle(fontSize = 12, fontName = "Arial",
 
 addStyle(wb, "HSMR1", borderstyle2, rows = 8:52, cols = 4:7, gridExpand = TRUE)
 
+# Set columns width
+setColWidths(wb, "HSMR1", cols = c(2,3), widths = c(34,43))
 
 
+# Open a temporary version of xlsx
 openXL(wb)
 
 
@@ -176,9 +232,6 @@ openXL(wb)
 
 
 
-openXL(wb)
-
-board <- c("NHS Ayrshire & Arran", " ", " ","NHS Borders", "" )
 
 
 
@@ -186,98 +239,6 @@ board <- c("NHS Ayrshire & Arran", " ", " ","NHS Borders", "" )
 
 
 
-board <- c("NHS Ayrshire & Arran",
-           " ",
-           " ",
-           "NHS Borders",
-           "",
-           "NHS Dumfries & Galloway",
-           "",
-           "NHS Fife",
-           "",
-           "NHS Forth Valley",
-           "",
-           "NHS Grampian",
-           "",
-           "",
-           "NHS Greater Glasgow & Clyde",
-           "",
-           "",
-           "",
-           "",
-           "NHS Highland",
-           "",
-           "",
-           "",
-           "",
-           "NHS Lanarkshire",
-           "",
-           "",
-           "",
-           "NHS Lothian",
-           "",
-           "",
-           "",
-           "National Waiting Times Centre",
-           "",
-           "NHS Orkney",
-           "",
-           "NHS Shetland",
-           "",
-           "NHS Tayside",
-           "",
-           "",
-           "",
-           "NHS Western Isles",
-           "",
-           "Scotland")
-
-hospital <- c(
-  "University Hospital Ayr",
-  "University Hospital Crosshouse",
-  "",
-  "Borders General Hospital",
-  "",
-  "Dumfries & Galloway Royal Infirmary",
-  "",
-  "Victoria / Queen Margaret / Forth Park",
-  "",
-  "Forth Valley Royal Hospital",
-  "",
-  "Aberdeen Royal Infirmary",
-  "Dr Gray's Hospital",
-  "",
-  "Glasgow Royal Infirmary / Stobhill",
-  "Inverclyde Royal Hospital",
-  "Royal Alexandra / Vale of Leven",
-  "Queen Elizabeth University Hospital",
-  "",
-  "Belford Hospital",
-  "Caithness General Hospital",
-  "Lorn & Islands Hospital",
-  "Raigmore Hospital",
-  "",
-  "University Hospital Hairmyres",
-  "University Hospital Monklands",
-  "University Hospital Wishaw",
-  "",
-  "Royal Infirmary of Edinburgh at Little France",
-  "St John's Hospital",
-  "Western General Hospital",
-  "",
-  "Golden Jubilee National Hospital",
-  "",
-  "Balfour Hospital",
-  "",
-  "Gilbert Bain Hospital",
-  "",
-  "Ninewells Hospital",
-  "Perth Royal Infirmary",
-  "Stracathro Hospital",
-  "",
-  "Western Isles Hospital",
-  ""
-)
 
 
 
