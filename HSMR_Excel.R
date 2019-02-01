@@ -34,11 +34,15 @@ saveWorkbook(wb, "Table2.xlsx", overwrite = TRUE)
 # For Table3----
 hsmr_data_3 <- hsmr_data %>% filter(location_type == "Scotland"|location_type == "hospital")
 
+hsmr_data_prev <- read_csv("smr_data_prev.csv") 
+hsmr_data_prev <- hsmr_data_prev %>% filter(location_type == "Scotland"|location_type == "hospital")
+
 ## load existing workbook
 wb <- loadWorkbook("Table3.xlsx")
 
 # write to the workbook
 writeData(wb, "smr_data", hsmr_data_3, startCol = 2, startRow = 1, colNames = TRUE)
+writeData(wb, "smr_data_prev", hsmr_data_prev, startCol = 2, startRow = 1, colNames = TRUE)
 
 # Save workbook     
 saveWorkbook(wb, "Table3.xlsx", overwrite = TRUE)
