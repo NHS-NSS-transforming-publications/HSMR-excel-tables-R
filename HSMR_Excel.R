@@ -8,7 +8,7 @@ hsmr_data <- read_csv("smr_data.csv")
 hsmr_data <- hsmr_data %>% filter(location_type == "Scotland"|location_type == "NHS Board")
 
 ## load existing workbook
-wb <- loadWorkbook("TableA1a_Tina_test.xlsm")
+wb <- loadWorkbook("TableA1a_Tina.xlsm")
 
 # write to the workbook
 writeData(wb, "smr_data", hsmr_data, startCol = 2, startRow = 1, colNames = TRUE)
