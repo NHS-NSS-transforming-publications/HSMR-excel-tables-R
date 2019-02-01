@@ -14,7 +14,7 @@ wb <- loadWorkbook("TableA1a_Tina.xlsm")
 writeData(wb, "smr_data", hsmr_data, startCol = 2, startRow = 1, colNames = TRUE)
 
 # Save workbook     
-saveWorkbook(wb, "TableA1a_Tina_test.xlsm", overwrite = TRUE)
+saveWorkbook(wb, "TableA1a_Tina.xlsm", overwrite = TRUE)
 
 #For TableA2a
 long_trend_data <- read_csv("long_term_trends (1).csv") 
