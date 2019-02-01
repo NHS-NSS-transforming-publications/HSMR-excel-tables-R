@@ -3,7 +3,7 @@ Template for producing publication tables in R so that the publication process c
 
 Notes:
 
-1. David should add a column called "quarter_name" into smr_data.csv and long_trend_data.csv, next to "quarter". 
+1. David should add a column called "quarter_name" (e.g. Jan-Mar 2011) into smr_data.csv and long_trend_data.csv, next to "quarter". 
 
 2. For Table 3, currently we are using the same dataset for spreadsheets "smr_data" and "smr_data_prev", as there is no data yet from next publication. So the results for spreadsheet "HSMR" columns D and E are not referring to "Oct-Dec 2017", but once the data from next publication got populated, it should refer to the correct data as the formulae have been set up correctly.
 
